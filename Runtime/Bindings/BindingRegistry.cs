@@ -42,14 +42,22 @@ namespace TechTalk.SpecFlow.Bindings
                 if (bindingAttr == null)
                     continue;
 
-                BuildBindingsFromType(type);
+                var customBindingAttr = bindingAttr as CustomBindingAttribute;
+
+                BuildBindingsFromType(type, customBindingAttr);
             }
         }
 
-        internal void BuildBindingsFromType(Type type)
+        internal void BuildBindingsFromType(Type type, CustomBindingAttribute bindingAttr)
         {
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
+                if (bindingAttr != null)
+                {
+                    var bindings = bindingAttr.CreateBindings(method);
+                    stepBindings.AddRange(bindings);
+                }
+
                 var scenarioStepAttrs = Attribute.GetCustomAttributes(method, typeof(ScenarioStepAttribute));
                 if (scenarioStepAttrs != null)
                     foreach (ScenarioStepAttribute scenarioStepAttr in scenarioStepAttrs)

@@ -94,7 +94,7 @@ namespace TechTalk.SpecFlow.RuntimeTests
             bindingRegistry = new BindingRegistry();
             foreach (var bindingType in bindingTypes)
             {
-                bindingRegistry.BuildBindingsFromType(bindingType);
+                bindingRegistry.BuildBindingsFromType(bindingType, null);
             }
             ObjectContainer.BindingRegistry = bindingRegistry;
 

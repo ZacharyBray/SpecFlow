@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using TechTalk.SpecFlow.Bindings;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace TechTalk.SpecFlow
 {
@@ -8,6 +10,11 @@ namespace TechTalk.SpecFlow
     public class BindingAttribute : Attribute
     {
 
+    }
+
+    public abstract class CustomBindingAttribute : BindingAttribute
+    {
+        abstract public IEnumerable<StepBinding> CreateBindings(MethodInfo methodInfo);
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
